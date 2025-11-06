@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Driver Login – Driver Access | CT Shuttles</title>
+  <meta name="description" content="Secure access for verified CT Shuttles drivers and fleet partners."/>
+  <style>
+    :root{--bg:#fafafa;--card:#fff;--muted:#6b7280;--text:#111827;--danger:#ef4444;--border:#e5e7eb;--r:16px}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;background:var(--bg);color:var(--text)}
+    main{display:flex;justify-content:center;padding:48px 16px}
+    .card{width:100%;max-width:720px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;box-shadow:0 8px 30px rgba(0,0,0,.04)}
+    .center{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+    .shield{width:56px;height:56px;display:grid;place-items:center;border-radius:50%;background:#fee2e2;color:var(--danger)}
+    h1{margin:8px 0 6px;font-size:28px}.sub{color:var(--muted);font-size:14px}
+    .alert{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;margin:18px 0 22px}
+    form{display:grid;gap:14px;margin-top:4px}label{font-weight:600;font-size:14px}
+    .field{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:12px;background:#fff;padding:10px 12px}
+    .field input{border:0;outline:0;flex:1;font-size:15px;background:transparent;padding:6px 0}
+    .icon{width:18px;height:18px;opacity:.6}
+    .btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;width:100%;padding:12px 16px;border:0;border-radius:12px;font-weight:700;background:var(--danger);color:#fff;cursor:pointer}
+    .btn:hover{filter:brightness(.95)}.fineprint{color:var(--muted);font-size:12px;margin-top:10px;line-height:1.5}
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card" aria-labelledby="driver-access">
+      <div class="center">
+        <div class="shield" aria-hidden="true">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l7 3v6c0 5-3.4 9.7-7 11-3.6-1.3-7-6-7-11V5l7-3z"/></svg>
+        </div>
+        <h1 id="driver-access">Driver Access</h1>
+        <div class="sub">Restricted access for verified drivers and fleet partners.</div>
+      </div>
+
+      <div class="alert" role="alert">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v2h2v-2zm0-8h-2v6h2V10z"/></svg>
+        <div>
+          <strong>Authorized Personnel Only</strong><br/>
+          This area requires a verified driver account. Unauthorized access is prohibited and monitored.
+        </div>
+      </div>
+
+      <!-- This is a static page: we don't POST anywhere.
+           We just send users to your real sign-in with a redirect to the driver dashboard. -->
+      <form id="login" novalidate>
+        <div>
+          <label for="email">Email Address</label>
+          <div class="field">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 13L2 6.76V18h20V6.76L12 13zM12 11l10-6H2l10 6z"/></svg>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="username" placeholder="driver@ctshuttles.co.za" required />
+          </div>
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <div class="field">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-6h-1V9a5 5 0 00-10 0v2H6v11h12V11zm-3 0H9V9a3 3 0 016 0v2z"/></svg>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+          </div>
+        </div>
+
+        <button class="btn" type="submit">Access Driver Panel</button>
+        <p class="fineprint">New driver? <a href="https://ctshuttles.co.za/signup">Register here</a>. Not a driver? <a href="https://ctshuttles.co.za/admin-login">Go to Admin Login</a>.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // On submit, navigate to your real sign-in page with redirect to the driver dashboard.
+    // We also pass the email in the query so it can be prefilled if your /signin supports it.
+    document.getElementById('login').addEventListener('submit', function(e){
+      e.preventDefault();
+      var email = encodeURIComponent(document.getElementById('email').value || '');
+      var dest = "https://ctshuttles.co.za/signin?redirect=/driver/dashboard";
+      if (email) dest += "&email=" + email;
+      location.href = dest;
+    });
+  </script>
+</body>
+</html>
